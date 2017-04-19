@@ -17,5 +17,5 @@ class MyUserAdmin(UserAdmin):
     )
 
 admin.site.register(get_user_model(), MyUserAdmin)
-admin.site.register(models.FriendGroup, admin.OSMGeoAdmin)
-admin.site.register(models.UserFriendGroup, admin.OSMGeoAdmin)
+admin.site.register(models.Favourite, admin.OSMGeoAdmin)
+admin.site.register(models.BusStop, admin.OSMGeoAdmin)

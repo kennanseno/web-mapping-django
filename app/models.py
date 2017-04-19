@@ -32,25 +32,24 @@ class User(AbstractUser):
             .format(self.username, self.get_full_name(), self.last_location, self.created, self.modified)
 
 
-class FriendGroup(models.Model):
+class BusStop(models.Model):
     class Meta:
-        verbose_name = "firends list"
-        verbose_name_plural = "friends lists"
+        verbose_name = "bus stop"
+        verbose_name_plural = "bus stops"
 
-    name = models.CharField(
+    address = models.CharField(
         max_length=100,
         blank=True,
-        verbose_name="name"
+        verbose_name="address"
     )
-    owner = models.ForeignKey(
-        User,
-        related_name="list_owner",
-        verbose_name="owner",
-        on_delete=models.CASCADE
+    location = models.PointField(
+        verbose_name="location",
+        blank=True,
+        null=True
     )
-    members = models.ManyToManyField(
+    favourites = models.ManyToManyField(
         User,
-        through='UserFriendGroup'
+        through='Favourite'
     )
     created = models.DateTimeField(
         auto_now_add=True
@@ -62,23 +61,23 @@ class FriendGroup(models.Model):
     # objects = models.Manager()
 
     def __str__(self):
-        return "{} owned by {}".format(self.name, self.owner)
+        return "{} with location of ({})".format(self.address, self.location)
 
 
-class UserFriendGroup(models.Model):
+class Favourite(models.Model):
     class Meta:
-        unique_together = ['member', 'friend_group']
-        verbose_name = "friend group members"
-        verbose_name_plural = "friend group members"
+        unique_together = ['user', 'stop']
+        verbose_name = "favourite bus stop"
+        verbose_name_plural = "favourite bus stops"
 
-    member = models.ForeignKey(
+    user = models.ForeignKey(
         User,
-        verbose_name="member",
+        verbose_name="user",
         on_delete=models.CASCADE
     )
-    friend_group = models.ForeignKey(
-        FriendGroup,
-        verbose_name="friend group",
+    stop = models.ForeignKey(
+        BusStop,
+        verbose_name="bus stop",
         on_delete=models.CASCADE
     )
     created = models.DateTimeField(
