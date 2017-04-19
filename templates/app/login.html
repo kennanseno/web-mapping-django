@@ -1,0 +1,48 @@
+{% extends "app/base.html" %}
+
+{% load staticfiles %}
+
+{% block content %}
+<div class="row">
+    {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <p><span class="error">
+                    <strong>{{ error|escape } dasda</strong>
+                </span></p>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <p><span class="error">
+                <strong>{{ error|escape }}dasds</strong>
+            </span></p>
+        {% endfor %}
+    {% endif %}
+
+
+    {% if user.is_authenticated %}
+        <p class="error">You are already logged in.</p>
+    {% else %}
+    <div class="table-responsive col-xs-offset-3 col-xs-6 col-md-4 col-md-offset-4">
+        <h3>Log In</h3>
+        <form method="post" action="{% url 'app:login' %}">
+            {% csrf_token %}
+            <table class="table">
+                <tr>
+                    <td>{{ form.username.label_tag }}</td>
+                    <td>{{ form.username }}</td>
+               </tr>
+                <tr>
+                  <td>{{ form.password.label_tag }}</td>
+                  <td>{{ form.password }}</td>
+               </tr>
+                <tr>
+                  <td><p>No account yet? <span><a href="{% url 'app:signup' %}">Sign up!</a></span></p></td>
+                  <td><input class="btn btn-primary pull-right" type="submit" value="Log In"/></td>
+               </tr>
+            </table>
+        </form>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
