@@ -47,10 +47,6 @@ class BusStop(models.Model):
         blank=True,
         null=True
     )
-    favourites = models.ManyToManyField(
-        User,
-        through='Favourite'
-    )
     created = models.DateTimeField(
         auto_now_add=True
     )
@@ -90,7 +86,7 @@ class Favourite(models.Model):
     # objects = models.Manager()
 
     def __str__(self):
-        return "{} is a member of {}".format(self.member, self.friend_group)
+        return "Bus stop {} is a favourite of {}".format(self.stop, self.user)
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

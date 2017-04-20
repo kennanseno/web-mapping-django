@@ -31,3 +31,14 @@ class UserOtherSerializer(geo_serializers.GeoFeatureModelSerializer):
 
     def get_url(self, obj):
         return self.context["request"].build_absolute_uri(reverse("rest:user-username", kwargs={"uid": obj.pk}))
+
+class stopSerializer(geo_serializers.GeoFeatureModelSerializer):
+    url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = models.BusStop
+        geo_field = "location"
+        fields = ("id", "address", "url")
+
+    def get_url(self, obj):
+        return self.context["request"].build_absolute_uri(reverse("rest:user-username", kwargs={"uid": obj.pk}))

@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout, get_user_model
+from .models import BusStop
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect, render_to_response
 from django.core.urlresolvers import reverse
@@ -18,11 +19,6 @@ from . import forms
 def logout_view(request):
     logout(request)
     return redirect(reverse('app:login'))
-
-@login_required
-def landing(request):
-    return render(request, 'app/landing.html')
-
 
 def login_view(request):
     # if this is a POST request we need to process the form data
@@ -87,6 +83,10 @@ def signup_view(request):
 
     return render(request, 'app/signup.html', {'form': form})
 
+@login_required
+def landing(request):
+    stops = BusStop.objects.all()
+    return render(request, 'app/landing.html', { 'stops': stops })
 
 class UserProfile(UpdateView):
     form_class = forms.UserProfileForm
@@ -98,4 +98,5 @@ class UserProfile(UpdateView):
 
     def get_object(self, queryset=None):
         return get_user_model().objects.get(pk=self.request.user.pk)
+
 

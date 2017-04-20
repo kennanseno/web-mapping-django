@@ -3,6 +3,7 @@ from . import serializers
 from rest_framework import permissions
 from . import permissions as my_permissions
 from wm_assignment import settings
+from .models import BusStop
 
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from rest_framework import permissions, authentication, status, generics
@@ -28,10 +29,20 @@ class UsersList(generics.ListAPIView):
     def get_serializer_context(self):
         return {"request": self.request}
 
+class busStopList(generics.ListAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = serializers.stopSerializer
+
+    def get_queryset(self):
+        return BusStop.objects.all()
+
+    def get_serializer_context(self):
+        return {"request": self.request}
+
 
 class UserMe_R(generics.RetrieveAPIView):
     permission_classes = (permissions.IsAuthenticated,)
-    serializer_class = serializers.UserMeSerializer
+    serializer_class = serializers.UserOtherSerializer
 
     def get_object(self):
         return get_user_model().objects.get(email=self.request.user.email)

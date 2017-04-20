@@ -1,9 +1,27 @@
 {% extends "app/base.html" %}
 
 {% load staticfiles %}
+{% load leaflet_tags %}
 
 {% block content %}
 <div class="container">
-    <p>General landing page. This is a <em>placeholder</em> pending development.</p>
+    
+    <p id="stops" style="visibility: hidden; display: none">{{ stops.location.geojson }}</p>
+    <script>
+        function map_init(map, options) {
+            var stops = JSON.parse($("#stops").html());
+            var myLatLon = L.latLng([stops.coordinates[1], stops.coordinates[0]]);
+
+            stops = L.geoJson(stops);
+            stops.addTo(map);
+
+            map.setView(myLatLon, 16);
+        }
+    </script>
+        <p>{{ stops.location.geojson }}</p>
+     <h3>Dublin Bus</h3>
+    <div style="text-align: center">
+        {% leaflet_map "my_map" callback="map_init" %}
+    </div>
 </div>
 {% endblock %}
