@@ -75,9 +75,9 @@ WSGI_APPLICATION = 'wm_assignment.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'test-1',
+        'NAME': 'wmap',
         'USER': 'kennanseno',
-        'PASSWORD': '',
+        'PASSWORD': 'xavier123',
         'HOST': 'localhost',
         'PORT': '5432',
     }
