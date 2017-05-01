@@ -4,6 +4,8 @@ from rest_framework import permissions
 from . import permissions as my_permissions
 from wm_assignment import settings
 from .models import BusStop
+import urllib2
+import json
 
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from rest_framework import permissions, authentication, status, generics
@@ -123,4 +125,13 @@ def token_login(request):
         else:
             return Response({"detail": "Inactive account"}, status=status.HTTP_400_BAD_REQUEST)
     else:
-        return Response({"detail": "Invalid User Id of Password"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"detail": "Invalid username or password"}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(["GET", ])
+@permission_classes((permissions.AllowAny,))
+@csrf_exempt
+def getBusStops(request):
+    url = 'https://data.dublinked.ie/cgi-bin/rtpi/busstopinformation?operator=bac&maxresults=1000' #limit results to 1000
+    response = json.loads(urllib2.urlopen(url).read())  
+    return Response({"data": response}, status = status.HTTP_200_OK)
+
