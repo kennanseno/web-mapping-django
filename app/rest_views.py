@@ -131,14 +131,13 @@ def token_login(request):
 @permission_classes((permissions.AllowAny,))
 @csrf_exempt
 def getBusStops(request):
-    url = 'https://data.dublinked.ie/cgi-bin/rtpi/busstopinformation?operator=bac&maxresults=1000' #limit results to 1000
+    url = 'https://data.dublinked.ie/cgi-bin/rtpi/busstopinformation?operator=bac&maxresults=100' #limit results to 100
    # response = json.loads(urllib2.urlopen(url).read())  
     #return Response({"data": response}, status = status.HTTP_200_OK)
     file = urllib2.urlopen(url)
     data = file.read()
     file.close()
-    for item in data:
-        print(item)
+#    print(data)
     
     return Response({"data": data}, status=status.HTTP_200_OK)
 
