@@ -132,6 +132,13 @@ def token_login(request):
 @csrf_exempt
 def getBusStops(request):
     url = 'https://data.dublinked.ie/cgi-bin/rtpi/busstopinformation?operator=bac&maxresults=1000' #limit results to 1000
-    response = json.loads(urllib2.urlopen(url).read())  
-    return Response({"data": response}, status = status.HTTP_200_OK)
+   # response = json.loads(urllib2.urlopen(url).read())  
+    #return Response({"data": response}, status = status.HTTP_200_OK)
+    file = urllib2.urlopen(url)
+    data = file.read()
+    file.close()
+    for item in data:
+        print(item)
+    
+    return Response({"data": data}, status=status.HTTP_200_OK)
 
