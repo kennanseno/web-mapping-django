@@ -1,4 +1,4 @@
-# web-mapping-django
+# Dublin Bus Finder Django backend
 
 Note:
   Ensure that postgresql is installed and correct database information is added in settings.py
