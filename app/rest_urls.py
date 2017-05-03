@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^updateposition/$', rest_views.UpdatePosition.as_view(), name='update-position'),
     url(r'^busStops/$', rest_views.getBusStops, name='get-stops'),
     url(r'^stopSchedule/$', rest_views.getStopSchedule, name='get-stop-schedule'),
+    url(r'^signup/$', rest_views.signup, name='signup'),
 ]
