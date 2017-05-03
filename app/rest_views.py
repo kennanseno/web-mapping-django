@@ -106,9 +106,9 @@ class UpdatePosition(generics.UpdateAPIView):
             pass
 
 
+# Endpoint for logging in securely
 @api_view(["GET", ])
 @permission_classes((permissions.AllowAny,))
-# @csrf_exempt
 def token_login(request):
     if (not request.GET["username"]) or (not request.GET["password"]):
         return Response({"detail": "Missing username and/or password"}, status=status.HTTP_400_BAD_REQUEST)
@@ -127,6 +127,9 @@ def token_login(request):
     else:
         return Response({"detail": "Invalid username or password"}, status=status.HTTP_400_BAD_REQUEST)
 
+# Calls the public endpoint for all the bus stops that are used by dublin bus
+# and sends it to the application
+# results limit to 100 by choice as takes a while to load if all bus stops are pulled
 @api_view(["GET", ])
 @permission_classes((permissions.AllowAny,))
 @csrf_exempt
@@ -138,6 +141,7 @@ def getBusStops(request):
 
     return Response({"data": data}, status=status.HTTP_200_OK)
 
+# Uses the public endpoint to get the timetable information of a bus stop using the stop id
 @api_view(["GET", ])
 @permission_classes((permissions.AllowAny,))
 @csrf_exempt
@@ -150,6 +154,8 @@ def getStopSchedule(request):
 
     return Response({"data": data}, status=status.HTTP_200_OK)
 
+# REST endpoint to register a new user
+# takes in username,password,firstname,lastname,email
 @api_view(["GET", ])
 @permission_classes((permissions.AllowAny,))
 @csrf_exempt
